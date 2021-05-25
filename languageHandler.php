@@ -54,18 +54,19 @@ class languageHandler
      */
     public static function getString(array $data, string $string, $languageID, string $subKey = '')
     {
+        $languageID = strtoupper($languageID);
         $stringPrefix = self::getPrefix($string, $languageID);
         if($subKey !== '')
         {
-            return !empty($data[$stringPrefix]) ?
-                $data[$stringPrefix] :
+            return !empty($data[$stringPrefix][$subKey]) ?
+                $data[$stringPrefix][$subKey] :
                 $data[$string];
         }
         else
         {
-            return !empty($data[$stringPrefix][$subKey]) ?
-                $data[$stringPrefix][$subKey] :
-                $data[$string][$subKey];
+            return !empty($data[$stringPrefix]) ?
+                $data[$stringPrefix] :
+                $data[$string];
         }
 
     }
@@ -80,6 +81,8 @@ class languageHandler
     public static function getPrefix(string $string, $languageID): string
     {
         $string = strtoupper($string);
+        $languageID = strtoupper($languageID);
+
         if ($languageID != self::mainLang)
         {
             $languageID = strtoupper($languageID);
@@ -99,19 +102,26 @@ class languageHandler
      * @return bool
      * Проверяет на наличие значения с языковым префиксом
      */
-    public static function checkString(array $data, string $string, $languageID): bool
+    public static function checkString(array $data, string $string, $languageID, string $subKey = ''): bool
     {
-        $string = strtoupper($string);
+        $languageID = strtoupper($languageID);
         if ($languageID != self::mainLang)
         {
             $languageID = strtoupper($languageID);
-            $return = !empty($data[$string . '_' . $languageID]);
+            if($subKey !== '')
+            {
+                return !empty($data[$string . '_' . $languageID][$subKey]);
+            }
+            else
+            {
+                return !empty($data[$string . '_' . $languageID]);
+            }
+
         }
         else
         {
-            $return = false;
+            return false;
         }
-        return $return;
     }
 
     /**
@@ -124,6 +134,7 @@ class languageHandler
      */
     public static function getProperty(array $data, string $string, $languageID, string $subKey = '')
     {
+        $languageID = strtoupper($languageID);
         switch ($string)
         {
             /**
@@ -135,9 +146,9 @@ class languageHandler
             case 'PREVIEW_TEXT':
             case 'DETAIL_PICTURE':
             case 'PREVIEW_PICTURE':
-                if (self::checkString($data['PROPERTIES'], $string, $languageID))
+                if (self::checkString($data['PROPERTIES'], $string, $languageID, 'VALUE'))
                 {
-                    $return = self::getString($data['PROPERTIES'], $string, $languageID);
+                    $return = self::getString($data['PROPERTIES'], $string, $languageID, 'VALUE');
                 }
                 else
                 {
@@ -153,6 +164,7 @@ class languageHandler
 
     public static function getProperties(array &$data, array $properties, $languageID)
     {
+        $languageID = strtoupper($languageID);
         foreach ($properties as $property)
         {
             switch ($property)
