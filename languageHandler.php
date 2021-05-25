@@ -187,6 +187,15 @@ class languageHandler
         }
     }
 
+    public static function getFields(array &$data, array $properties, $languageID)
+    {
+        $languageID = strtoupper($languageID);
+        foreach ($properties as $property)
+        {
+            $data[$property] = self::getString($data, $property, $languageID);
+        }
+    }
+
     public function createProperty(int $iblockID, string $prefix, array $property = [])
     {
         $this->errors = [];
