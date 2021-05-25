@@ -13,6 +13,7 @@ class languageHandler
     /**
      * @param array $data
      * TODO рекурсивный перевод всех ключей массива в верхний регистр
+     * Deprecated
      */
     private static function setKeyToUp(array &$data)
     {
