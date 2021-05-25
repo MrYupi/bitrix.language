@@ -277,7 +277,6 @@ class languageHandler
             {
                 $ibp = new CIBlockProperty();
                 $ibpEnum = new CIBlockPropertyEnum();
-                self::debug($arPropertyADD);
 
                 foreach ($arPropertyADD as $propertyCode => $propertyData)
                 {
