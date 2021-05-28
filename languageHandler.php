@@ -58,9 +58,10 @@ class languageHandler
         $stringPrefix = self::getPrefix($string, $languageID);
         if($subKey !== '')
         {
+
             return !empty($data[$stringPrefix][$subKey]) ?
                 $data[$stringPrefix][$subKey] :
-                $data[$string];
+                $data[$string][$subKey];
         }
         else
         {
